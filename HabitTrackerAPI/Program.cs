@@ -1,4 +1,5 @@
 using HabitTrackerAPI.Auth;
+using HabitTrackerAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,11 @@ ConfigurationManager configuration = builder.Configuration;
 
 // For Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
+// ...
+builder.Services.AddDbContext<HabitDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnString")));
+
+// ...
+
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
