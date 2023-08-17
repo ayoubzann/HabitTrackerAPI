@@ -17,6 +17,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddDbContext<HabitDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnString")));
 
 // ...
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
+// Add CORS configuration here
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5000",
+                                              "http://localhost:3000")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                      });
+});
 
 
 // For Identity
@@ -62,7 +77,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(MyAllowSpecificOrigins);
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
